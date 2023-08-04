@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>売上システム（売上登録画面）</title>
+    </head>
+    <body>
+        {% extends 'base.html' %}
+        {% block header %}
+        <p style="color:blue">以下のように売上登録しました。</p>
+        売上ID：
+        <br>
+        売上明細
+        <br>
+        <a href="{% url 'salesapp:init' %}"><button>終了</button></a>
+        {% endblock header %}
+    </body>
+</html>

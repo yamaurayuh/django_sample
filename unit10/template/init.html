@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>売上システム（初期画面）</title>
+    </head>
+    <body>
+        {% extends 'base.html' %}
+        {% block header %}
+        <form action="{% url 'salesapp:detail' %}" method="post">{% csrf_token %}
+            商品：<select name="merchandise" calss="comb">
+            {% for item in object_list %}
+                <option>{{item.merchandise}}</option>
+            {% endfor %}
+            </select>
+            <br>
+            点数：<input name="amout" type="number" value=1 size="10">
+            <br>
+            <input type='submit' value='明細追加'>
+        </form>
+        <br>
+        {% endblock header %}
+    </body>
+</html>

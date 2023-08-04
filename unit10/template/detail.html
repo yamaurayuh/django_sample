@@ -1,0 +1,30 @@
+<html>
+    <head>
+        <title>売上システム（明細追加画面）</title>
+    </head>
+    <body>
+        {% extends 'base.html' %}
+        {% block header %}
+        <form action="{% url 'salesapp:detail' %}" method="post">{% csrf_token %}
+            商品：<select name="merchandise" calss="comb">
+            {% for item in object_list %}
+                <option>{{item.merchandise}}</option>
+            {% endfor %}
+            </select>
+            <br>
+            点数：<input name="amout" type="number" value=1 size="10">
+            <br>
+            <input type='submit' value='明細追加'>
+        </form>
+        <p style="color:blue">明細に追加しました。</p>
+        <table border=1>
+            売上明細
+            <tr><th>商品ID</th><th>商品</th></tr>
+            <tr><td>{{ merchandise }}</td><td>{{ amout }}</td></tr>
+        </table>
+        
+        <a href="{% url 'salesapp:detail' %}"><button>削除</button></a>
+        <a href="{% url 'salesapp:result' %}"><button>確定</button></a>
+        {% endblock header %}
+    </body>
+</html>
