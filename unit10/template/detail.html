@@ -16,14 +16,21 @@
             <br>
             <input type='submit' value='明細追加'>
         </form>
+
         <p style="color:blue">明細に追加しました。</p>
-        <table border=1>
-            売上明細
-            <tr><th>商品ID</th><th>商品</th></tr>
-            <tr><td>{{ merchandise }}</td><td>{{ amout }}</td></tr>
-        </table>
-        
-        <a href="{% url 'salesapp:detail' %}"><button>削除</button></a>
+        <form action="{% url 'salesapp:detail' %}" method="delete">{% csrf_token %}
+            <table border=1>
+                売上明細
+                <tr><th>削除</th><th>商品ID</th><th>商品</th><th>数量</th><th>金額</th></tr>
+                {% for key1, value1 in goods.items %}
+                    <tr><td><input type='radio' name="del"></td><td>{{ key1 }}</td>
+                    {% for key2, value2 in value1.items %}
+                    <td>{{ value2 }}</td>
+                    {% endfor %}
+                {% endfor %}
+            </table>
+            <input type='submit' value='削除'>
+        </form>
         <a href="{% url 'salesapp:result' %}"><button>確定</button></a>
         {% endblock header %}
     </body>
