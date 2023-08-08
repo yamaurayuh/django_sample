@@ -1,4 +1,16 @@
 <html>
+    <script type="text/javascript">
+        window.onload = function () {
+            var tableElem = document.getElementById('cart');
+            var rowElems = tableElem.rows;
+            var price = 0;
+            for (i = 1, len = rowElems.length; i < len; i++) {
+                // rowElems[i].cells[3].innerText = parseInt(rowElems[i].cells[1].innerText * rowElems[i].cells[2].innerText);
+                price += parseInt(rowElems[i].cells[4].innerText);
+            }
+            document.getElementById('total').innerText = price;
+        }
+    </script>
     <head>
         <title>売上システム（明細追加画面）</title>
     </head>
@@ -17,21 +29,26 @@
             <input type='submit' value='明細追加'>
         </form>
 
+        {% if goods %}
+        {{goods}}
         <p style="color:blue">明細に追加しました。</p>
-        <form action="{% url 'salesapp:detail' %}" method="delete">{% csrf_token %}
-            <table border=1>
+        <form action="{% url 'salesapp:detail' %}" method="get">{% csrf_token %}
+            <table id='cart' border=1>
                 売上明細
                 <tr><th>削除</th><th>商品ID</th><th>商品</th><th>数量</th><th>金額</th></tr>
                 {% for key1, value1 in goods.items %}
-                    <tr><td><input type='radio' name="del"></td><td>{{ key1 }}</td>
+                    <tr><td><input type='radio' name="del" value={{forloop.counter0}}></td><td>{{ key1 }}</td>
                     {% for key2, value2 in value1.items %}
                     <td>{{ value2 }}</td>
                     {% endfor %}
                 {% endfor %}
             </table>
+            合計金額：<span id="total"></span>円
+            <br>
             <input type='submit' value='削除'>
         </form>
         <a href="{% url 'salesapp:result' %}"><button>確定</button></a>
+        {% endif %}
         {% endblock header %}
     </body>
 </html>

@@ -1,4 +1,16 @@
 <html>
+    <script type="text/javascript">
+        window.onload = function () {
+            var tableElem = document.getElementById('cart');
+            var rowElems = tableElem.rows;
+            var price = 0;
+            for (i = 1, len = rowElems.length; i < len; i++) {
+                // rowElems[i].cells[3].innerText = parseInt(rowElems[i].cells[1].innerText * rowElems[i].cells[2].innerText);
+                price += parseInt(rowElems[i].cells[3].innerText);
+            }
+            document.getElementById('total').innerText = price;
+        }
+    </script>
     <head>
         <title>売上システム（売上登録画面）</title>
     </head>
@@ -6,9 +18,19 @@
         {% extends 'base.html' %}
         {% block header %}
         <p style="color:blue">以下のように売上登録しました。</p>
-        売上ID：
+        売上ID：{{salesid}}
         <br>
-        売上明細
+        <table id='cart' border=1>
+            売上明細
+            <tr><th>商品ID</th><th>商品</th><th>数量</th><th>金額</th></tr>
+            {% for key1, value1 in goods.items %}
+                <tr><td>{{ key1 }}</td>
+                {% for key2, value2 in value1.items %}
+                <td>{{ value2 }}</td>
+                {% endfor %}
+            {% endfor %}
+        </table>
+        合計金額：<span id="total"></span>円
         <br>
         <a href="{% url 'salesapp:init' %}"><button>終了</button></a>
         {% endblock header %}

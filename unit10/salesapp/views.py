@@ -49,10 +49,23 @@ class detail(ListView):
         print(self.context)
         return render(request, 'detail.html', self.context)
     
-    def delete(self, request, *args, **kwargs):
-        print('delete')
-        del self.context[request.POST.get('merchandise')]
+    def get(self, request, *args, **kwargs):
+        print(request.GET.get('del'))
+        if request.GET.get('del') is None:
+            return render(request, 'detail.html', self.context)
+        else:
+            delMerchandiseID = list(self.context['goods'].keys())[int(request.GET.get('del'))]
+            del self.context['goods'][delMerchandiseID]
+            request.session['goods'] = self.context['goods']
+            print(self.context)
+            return render(request, 'detail.html', self.context)
 
 class result(ListView):
     template_name = 'result.html'
     model = SalesModel
+    def get(self, request, *args, **kwargs):
+        print('called result get')
+        import time
+        print(dict(request.session))
+        request.session.update({'salesid':int(time.time())})
+        return render(request, 'result.html', dict(request.session))
